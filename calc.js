@@ -22,6 +22,8 @@ function updateCalc(event) {
 }
 
 $(() => {
+	$('#myModal').modal('show');
+	
 	const addedHTML = lectures.reduce((acc, lecture) => {
 		const elements = lectureElements(lecture.id);
 
