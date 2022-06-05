@@ -1,39 +1,54 @@
+const unitesColors = ['#f7efd2', '#eed7a1', '#cd8b62'];
+
+const unites = [
+	[0, 3, 4],
+	[1, 6],
+	[2, 5]
+];
+
 const lectures = [
 	{
 		id: 'ENG',
 		name: 'English',
 		coefficient: 1,
-		removeCC: true
+		removeCC: true,
+		credit: 2
 	},
 	{
 		id: 'Asserv',
 		name: 'Asserv',
-		coefficient: 3
+		coefficient: 3,
+		credit: 5
 	},
 	{
 		id: 'MDF',
 		name: 'MDF',
-		coefficient: 3
+		coefficient: 3,
+		credit: 5
 	},
 	{
 		id: 'MethodesNum',
 		name: 'Methodes Num',
-		coefficient: 2
+		coefficient: 2,
+		credit: 4
 	},
 	{
 		id: 'Proba',
 		name: 'Proba',
-		coefficient: 2
+		coefficient: 2,
+		credit: 4
 	},
 	{
 		id: 'RDM',
 		name: 'RDM',
-		coefficient: 3
+		coefficient: 3,
+		credit: 5
 	},
 	{
 		id: 'TDC',
 		name: 'TDC',
-		coefficient: 3
+		coefficient: 3,
+		credit: 5
 	}
 ];
 

@@ -1,5 +1,4 @@
 function updateCalc(event) {
-
 	const finalSum = lectures.reduce((acc, lecture) => {		
 		const elements = lectureElements(lecture.id);
 
@@ -19,16 +18,34 @@ function updateCalc(event) {
 	const finalResult = _2DigsDiv(finalSum / coefficientsSum);
 
 	$('#finalResult').html(finalResult + '/20');
+
+	const credits = unites.map(unite => {
+		const modules = unite.map(_ => lectures[_]);
+		
+		const results = modules.map(_ => {
+			const elements = lectureElements(_.id);
+			
+			return {
+				total: +$('#' + elements.TOTAL).val(),
+				credit: _.credit
+			}
+		});
+
+		const totalCredit = results.filter(_ => _.total >= 10).reduce((a, b) => a + b.credit, 0);
+		
+		return totalCredit;
+	});
+
+	credits.forEach((_, i) => $('#unite' + i).html(_));
+	$('#uniteTotal').html(credits.reduce((a, b) => a + b, 0));
 }
 
-$(() => {
-	$('#myModal').modal('show');
-	
-	const addedHTML = lectures.reduce((acc, lecture) => {
+$(() => {	
+	const addedHTML = lectures.reduce((acc, lecture, i) => {
 		const elements = lectureElements(lecture.id);
 
 		const tr = `
-			<tr>
+			<tr id="moduleTr${i}">
 				<th scope="row">${lecture.name}</th>
 				<td>${lecture.removeCC ? '' : input(elements.CC)}</td>
 				<td>${input(elements.EXAM)}</td>
@@ -40,7 +57,20 @@ $(() => {
 		return acc + tr;
 	}, '');
 
+	const unitesHtml = [...unites, null].reduce((acc, unite, i) => {
+		const tr = `
+			<tr id="uniteTr${i}">
+				<th scope="row">${unite ? ('Unite' + (i + 1)) : 'Credit total'}</th>
+				<td colspan="3"></td>
+				<td style="font-weight:bold;" id="unite${unite ? i : 'Total'}"></td>
+			</tr>
+		`;
+
+		return acc + tr;
+	}, '');
+
 	$('#tbody').prepend(addedHTML);
+	$('#tbody').append(unitesHtml);
 
 	$('.ilyesK').on('input', _ => updateCalc(_));
 	
@@ -54,5 +84,15 @@ $(() => {
 		$('#' + elements.EXAM).val(jThis.val());
 
 		updateCalc();
+	});
+
+	unites.forEach((unite, i) => {
+		const color = unitesColors[i];
+
+		unite.forEach(module => {
+			$('#moduleTr' + module).css('background-color', color);
+		});
+
+		$('#uniteTr' + i).css('background-color', color);
 	});
 });
