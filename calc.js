@@ -26,12 +26,16 @@ function updateCalc(event) {
 			const elements = lectureElements(_.id);
 			
 			return {
-				total: +$('#' + elements.TOTAL).val(),
-				credit: _.credit
+				..._,
+				total: +$('#' + elements.TOTAL).val()
 			}
 		});
+		
+		const totalCoef = results.reduce((a, b) => a + b.coefficient, 0);
 
-		const totalCredit = results.filter(_ => _.total >= 10).reduce((a, b) => a + b.credit, 0);
+		const totalCredit = (results.reduce((a, b) => a + b.total * b.coefficient, 0) >= 10 * totalCoef ? 
+			results : 
+			results.filter(_ => _.total >= 10)).reduce((a, b) => a + b.credit, 0);
 		
 		return totalCredit;
 	});
